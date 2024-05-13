@@ -45,8 +45,6 @@ public class Obligatoriojuanes {
             String idFarmaco = parts[0].trim();
             if (listaFarmacos.buscar(idFarmaco) != null) {
                 listaBlanca.insertar(new Nodo(archivoListaBlanca[i], archivoListaBlanca[i]));
-            } else {
-                System.out.println("No existe el farmaco " + archivoListaBlanca[i]);
             }
         }
 
@@ -56,8 +54,6 @@ public class Obligatoriojuanes {
             String idFarmaco = parts[1].trim();
             if (listaSueros.buscar(idSuero) != null && listaFarmacos.buscar(idFarmaco) != null) {
                 listaNegra.insertar(new Nodo(parts[0].trim(), parts[1].trim()));
-            } else {
-                System.out.println("No existe suero " + parts[0].trim() + " y/o farmaco " + parts[1].trim());
             }
         }
 
@@ -67,6 +63,7 @@ public class Obligatoriojuanes {
         String idSuero = input.nextLine();
         if (listaSueros.buscar(idSuero) == null) {
             System.out.println("No existe suero con ese id");
+            return;
         }
         Suero miSuero = (Suero) listaSueros.buscar(idSuero).getDato();
         System.out.print("Ingrese cantidad de farmacos a utilizar: ");
@@ -78,23 +75,14 @@ public class Obligatoriojuanes {
             String idFar = id.nextLine();
             if (listaFarmacos.buscar(idFar) == null) {
                 System.out.print("No existe farmaco con ese indentificador ");
+                return;
             } else {
                 Farmaco farm = (Farmaco) listaFarmacos.buscar(idFar).getDato();
                 String descripcion = farm.getDescripcion();
                 listaFarmacosConsulta.insertar(new Nodo(new Farmaco(idFar, descripcion), idFar));
             }
         }
-
-        // esto lo puse asi porque en realidad las instancias de los sueros ya estan
-        // creadas dentro
-        // de la lista de sueros ahi arriba
-        // no se que es mas conveniente en el metodo de preparado, si Lista<INodo>
-        // o Lista<Farmaco>
-        //////////////////////////
-        /* Hacemos una prueba... */
-        //////////////////////////
-
-        // Preparado prueba = new Preparado(listaBlanca, listaNegra);
+        
         System.out.println(miSuero.imprimir()); // se imprime el suero a usar
         System.out.println(listaFarmacosConsulta.imprimirLista()); // se imprime la lista de farmacos a usar
         if (preparado.preparadoViable(miSuero, listaFarmacosConsulta)) { // se imprime si es viable o no
